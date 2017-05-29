@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const primaryColor = '#185A9D';
 
 const Container = styled.div`
+  height: 40px;
   color: #FFF;
   background: ${primaryColor};
   padding: 20px;
@@ -20,6 +22,10 @@ const Input = styled.input`
   color: #FFF;
   text-align: center;
   font: inherit;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Button = styled.button`
