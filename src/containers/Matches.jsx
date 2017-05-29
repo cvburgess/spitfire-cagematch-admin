@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import MatchRow from '../components/MatchRow';
 import CreateMatch from '../components/CreateMatch';
 
@@ -65,22 +64,45 @@ const matches = [
   }
 ];
 
-const Matches = ({}) =>
-  <div>
-    <CreateMatch
-      date={null}
-      onDateChange={null}
-      onCreateMatch={null} />
-    {matches.map(match =>
-      <MatchRow
-        key={match.matchId}
-        id={match.matchId}
-        date={match.date}
-        isVotingOpen={match.isVotingOpen}
-        teams={match.teams} />
-    )}
-  </div>
-;
+class Matches extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      creatingDate: ""
+    };
+  }
+
+  onCreateMatch = (event) => {
+    this.setState({
+      creatingDate: ""
+    });
+  };
+
+  onDateChange = (event) => {
+    this.setState({
+      creatingDate: event.target.value
+    });
+  };
+
+  render() {
+    const { creatingDate } = this.state;
+    return <div>
+      <CreateMatch
+        date={creatingDate}
+        onDateChange={this.onDateChange}
+        onCreateMatch={this.onCreateMatch} />
+      {matches.map(match =>
+        <MatchRow
+          key={match.matchId}
+          id={match.matchId}
+          date={match.date}
+          isVotingOpen={match.isVotingOpen}
+          teams={match.teams} />
+      )}
+    </div>
+  }
+}
 
 Matches.propTypes = {
   matches: PropTypes.array

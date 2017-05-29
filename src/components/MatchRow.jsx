@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { format, isBefore } from 'date-fns';
 import ToggleVotingButton from './ToggleVotingButton';
@@ -7,7 +8,7 @@ import TeamList from './TeamList';
 const primaryColor = '#185A9D';
 
 const Container = styled.div`
-  border-bottom: 2px solid #185A9D;
+  border-bottom: 2px solid ${primaryColor};
   display: flex;
   align-items: center;
   padding: 20px;
@@ -33,10 +34,10 @@ const MatchRow = ({ id, date, isVotingOpen, teams }) =>
 ;
 
 MatchRow.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  date: React.PropTypes.string.isRequired,
-  isVotingOpen: React.PropTypes.bool.isRequired,
-  teams: React.PropTypes.array,
+  id: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  isVotingOpen: PropTypes.bool.isRequired,
+  teams: PropTypes.array,
 };
 
 export default MatchRow;

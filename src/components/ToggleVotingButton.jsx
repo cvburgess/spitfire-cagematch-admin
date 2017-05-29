@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const primaryColor = '#185A9D';
-const secondaryColor = '#43CEA2';
 const dangerColor = '#F15E14';
 const warningColor = '#F1BE14';
 
@@ -24,8 +24,8 @@ const ToggleVotingButton = ({ isVotingOpen, onToggle }) =>
 ;
 
 ToggleVotingButton.propTypes = {
-  isVotingOpen: React.PropTypes.bool.isRequired,
-  onToggle: React.PropTypes.func.isRequired
+  isVotingOpen: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired
 };
 
 export default ToggleVotingButton;
