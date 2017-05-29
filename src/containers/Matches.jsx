@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MatchRow from '../components/MatchRow';
+import CreateMatch from '../components/CreateMatch';
 
 const matches = [
   {
@@ -12,6 +13,12 @@ const matches = [
         "votes": [],
         "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec815",
         "name": "Goat Simulator",
+        "logoData": null
+      },
+      {
+        "votes": [],
+        "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec811",
+        "name": "Charles!",
         "logoData": null
       },
       {
@@ -29,13 +36,16 @@ const matches = [
 ];
 
 const Matches = ({}) =>
-  {matches.map(match =>
-    <MatchRow
-      id={match.matchId}
-      date={match.date}
-      isVotingOpen={match.isVotingOpen}
-      teams={match.teams} />
-  )}
+  <div>
+    {matches.map(match =>
+      <MatchRow
+        id={match.matchId}
+        date={match.date}
+        isVotingOpen={match.isVotingOpen}
+        teams={match.teams} />
+    )}
+    <CreateMatch />
+  </div>
 ;
 
 Matches.propTypes = {
