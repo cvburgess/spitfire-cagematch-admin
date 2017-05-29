@@ -6,7 +6,7 @@ const primaryColor = '#185A9D';
 const Container = styled.div`
   color: #FFF;
   background: ${primaryColor};
-  padding: 10px;
+  padding: 20px;
   display: flex;
   align-items: center;
   flex-flow: row wrap;
@@ -33,11 +33,14 @@ const Button = styled.button`
   padding: 5px 10px;
 `;
 
-const CreateMatch = ({ onDateChange, onCreateMatch }) =>
+const CreateMatch = ({ date, onDateChange, onCreateMatch }) =>
   <Container>
     <span>Create match</span>
-    <Input type="date" />
-    <Button>Create</Button>
+    <Input
+      onChange={onDateChange}
+      type="date"
+      value={date} />
+    {date ? <Button onClick={onCreateMatch}>Create</Button> : null}
   </Container>
 ;
 
