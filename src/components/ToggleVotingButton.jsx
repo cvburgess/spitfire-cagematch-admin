@@ -8,8 +8,13 @@ const warningColor = '#F1BE14';
 
 const Button = styled.button`
   color: ${props => props.isVotingOpen ? dangerColor : primaryColor};
+  background: #FFF;
   height: 40px;
   border: 2px solid ${props => props.isVotingOpen ? dangerColor : primaryColor};
+  margin-left: auto;
+  padding: 5px 10px;
+  font: inherit;
+  width: 150px;
 `;
 
 const ToggleVotingButton = ({ isVotingOpen, onToggle }) =>
@@ -19,8 +24,8 @@ const ToggleVotingButton = ({ isVotingOpen, onToggle }) =>
 ;
 
 ToggleVotingButton.propTypes = {
-  isVotingOpen: React.PropTypes.boolean.isRequired,
-  onToggle: React.PropTypes.function.isRequired
+  isVotingOpen: React.PropTypes.bool.isRequired,
+  onToggle: React.PropTypes.func.isRequired
 };
 
 export default ToggleVotingButton;
