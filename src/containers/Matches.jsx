@@ -11,13 +11,13 @@ const matches = [
     "teams": [
       {
         "votes": [],
-        "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec815",
+        "teamId": "3",
         "name": "Goat Simulator",
         "logoData": null
       },
       {
         "votes": [],
-        "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec811",
+        "teamId": "5",
         "name": "Charles!",
         "logoData": null
       },
@@ -27,7 +27,7 @@ const matches = [
             "voteId": "933c1ffd-9f26-416e-8457-0a60c732fa4c"
           }
         ],
-        "teamId": "18476fa7-8b57-49e0-b170-86a56a758116",
+        "teamId": "1",
         "name": "Guilty Pleasure",
         "logoData": null
       }
@@ -40,13 +40,13 @@ const matches = [
     "teams": [
       {
         "votes": [],
-        "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec815",
+        "teamId": "3",
         "name": "Goat Simulator",
         "logoData": null
       },
       {
         "votes": [],
-        "teamId": "2089d8eb-2fa9-4a61-81db-9a66a01ec811",
+        "teamId": "5",
         "name": "Charles!",
         "logoData": null
       },
@@ -56,11 +56,34 @@ const matches = [
             "voteId": "933c1ffd-9f26-416e-8457-0a60c732fa4c"
           }
         ],
-        "teamId": "18476fa7-8b57-49e0-b170-86a56a758116",
+        "teamId": "1",
         "name": "Guilty Pleasure",
         "logoData": null
       }
     ]
+  }
+];
+
+const teams = [
+  {
+    "name": "Guilty Pleasure",
+    "teamId": "1"
+  },
+  {
+    "name": "Roman Gods",
+    "teamId": "2"
+  },
+  {
+    "name": "Goat Simulator",
+    "teamId": "3"
+  },
+  {
+    "name": "Not Another",
+    "teamId": "4"
+  },
+  {
+    "name": "Charles!",
+    "teamId": "5"
   }
 ];
 
@@ -69,11 +92,16 @@ class Matches extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      creatingDate: ""
+      creatingDate: "",
+      createTeamName: ""
     };
   }
 
-  onCreateMatch = (event) => {
+  onAddTeamToMatch = (team, match) => {
+    
+  };
+
+  onCreateMatch = () => {
     this.setState({
       creatingDate: ""
     });
@@ -83,6 +111,21 @@ class Matches extends React.Component {
     this.setState({
       creatingDate: event.target.value
     });
+  };
+
+  onCreateNameChange = (name) => {
+    // this.
+  };
+
+  onCreateTeam = () => {
+    // Apollo createTeam
+    this.setState({
+      createTeamName: ""
+    });
+  };
+
+  toggleVotingForMatch = (matchId, isVotingOpen) => {
+
   };
 
   render() {
@@ -95,10 +138,13 @@ class Matches extends React.Component {
       {matches.map(match =>
         <MatchRow
           key={match.matchId}
+          allTeams={teams}
           id={match.matchId}
           date={match.date}
           isVotingOpen={match.isVotingOpen}
-          teams={match.teams} />
+          onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
+          onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
+          teamsInMatch={match.teams} />
       )}
     </div>
   }

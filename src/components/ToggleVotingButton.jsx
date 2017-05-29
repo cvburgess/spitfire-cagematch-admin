@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const primaryColor = '#185A9D';
 const dangerColor = '#F15E14';
-const warningColor = '#F1BE14';
 
 const Button = styled.button`
   color: ${props => props.isVotingOpen ? dangerColor : primaryColor};

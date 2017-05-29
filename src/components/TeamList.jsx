@@ -5,6 +5,7 @@ import AddTeam from './AddTeam';
 
 const secondaryColor = '#43CEA2';
 const dangerColor = '#F15E14';
+const warningColor = '#F1BE14';
 
 const List = styled.ul`
   list-style-type: none;
@@ -28,6 +29,10 @@ const VotesBadge = styled.div`
   border-radius: 5px;
 `;
 
+const AddBadge = VotesBadge.extend`
+  background: ${warningColor}
+`;
+
 const TeamName = styled.span`
   margin-right: 40px;
 `;
@@ -47,16 +52,24 @@ const RemoveTeamButton = styled.button`
 
 const sortByVotes = (teamA, teamB) => teamB.votes.length - teamA.votes.length;
 
-const TeamList = ({ canAddTeams, canRemoveTeams, teams }) =>
+const TeamList = ({ canAddTeams, canRemoveTeams, onSelectTeam, teamsInMatch, teamsNotInMatch }) =>
   <List>
-    {teams.sort(sortByVotes).map(team =>
+    {teamsInMatch.sort(sortByVotes).map(team =>
       <Item key={team.id}>
         <VotesBadge>{team.votes.length}</VotesBadge>
         <TeamName>{team.name}</TeamName>
         {canRemoveTeams ? <RemoveTeamButton>X</RemoveTeamButton> : null}
-        {canAddTeams ? <AddTeam></AddTeam> : null}
       </Item>
     )}
+    {canAddTeams ?
+      <Item>
+        <AddBadge>+</AddBadge>
+        <AddTeam
+          onSelectTeam={onSelectTeam}
+          teams={teamsNotInMatch}>
+        </AddTeam>
+      </Item>
+    : null}
   </List>
 ;
 

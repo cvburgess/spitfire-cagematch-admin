@@ -14,21 +14,24 @@ const Container = styled.div`
   padding: 20px;
 `;
 
-const Datelabel = styled.span`
+const Datelabel = styled.span``;
 
-`;
+const isTeamIdInMatch = (teamsInMatch, team) => teamsInMatch.find(({ teamId }) => teamId === team);
+const teamsNotInMatch = (allTeams, teamsInMatch) => allTeams.filter(({ teamId }) => !isTeamIdInMatch(teamsInMatch, teamId));
 
-const MatchRow = ({ id, date, isVotingOpen, teams }) =>
+const MatchRow = ({ allTeams, date, id, isVotingOpen, onSelectTeam, onToggleVoting, teamsInMatch }) =>
   <Container>
     <Datelabel>{format(date, 'MMM Do')}</Datelabel>
     <TeamList
-      canAddTeams={false}
+      canAddTeams={!isVotingOpen && isBefore(new Date(), date)}
       canRemoveTeams={!isVotingOpen && isBefore(new Date(), date)}
-      teams={teams} />
+      onSelectTeam={onSelectTeam}
+      teamsInMatch={teamsInMatch}
+      teamsNotInMatch={teamsNotInMatch(allTeams, teamsInMatch)} />
     {isBefore(date, new Date()) ? null :
       <ToggleVotingButton
         isVotingOpen={isVotingOpen}
-        onToggle={() => alert('toggle')} />
+        onToggle={onToggleVoting} />
     }
   </Container>
 ;
