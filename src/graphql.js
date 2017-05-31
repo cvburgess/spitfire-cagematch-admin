@@ -63,3 +63,20 @@ export const CLOSE_VOTING_MUTATION = gql`
       isVotingOpen
     }
   }`;
+
+export const CREATE_MATCH_MUTATION = gql`
+  mutation createMatch($date: String!) {
+    createMatch(date: $date){
+      matchId
+      isVotingOpen
+      date
+      teams {
+        votes {
+          voteId
+        }
+        teamId
+        name
+        logoData
+      }
+    }
+  }`;
