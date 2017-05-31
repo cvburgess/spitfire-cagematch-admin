@@ -47,3 +47,19 @@ export const ALL_TEAMS_QUERY = gql`
       logoData
     }
   }`;
+
+export const OPEN_VOTING_MUTATION = gql`
+  mutation openVoting($matchId: ID!) {
+    openVoting(matchId: $matchId) {
+      matchId
+      isVotingOpen
+    }
+  }`;
+
+export const CLOSE_VOTING_MUTATION = gql`
+  mutation closeVoting($matchId: ID!) {
+    closeVoting(matchId: $matchId) {
+      matchId
+      isVotingOpen
+    }
+  }`;
