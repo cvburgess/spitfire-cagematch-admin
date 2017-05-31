@@ -55,8 +55,6 @@ const CreateTeamButton = RemoveTeamButton.extend`
   margin-left: 10px;
 `;
 
-const sortByVotes = (teamA, teamB) => teamB.votes.length - teamA.votes.length;
-
 const TeamList = ({
   canAddTeams,
   canRemoveTeams,
@@ -67,7 +65,7 @@ const TeamList = ({
   teamsNotInMatch
 }) =>
   <List>
-    {teamsInMatch.sort(sortByVotes).map(team =>
+    {teamsInMatch.map(team =>
       <Item key={team.teamId}>
         <VotesBadge>{team.votes.length}</VotesBadge>
         <TeamName>{team.name}</TeamName>
