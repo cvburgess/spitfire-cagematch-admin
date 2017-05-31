@@ -33,8 +33,9 @@ const networkInterface = createNetworkInterface({ uri: apiUrl });
 
 const client = new ApolloClient({
   dataIdFromObject: (result) => {
-    if (result.id && result.__typename) {
-      return result.__typename + result.id;
+    const id = result && result.__typename && `${result.__typename.toLowerCase()}Id`;
+    if (id && result[id]) {
+      return result[id];
     }
     return null;
   },
