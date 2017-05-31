@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AddTeam from './AddTeam';
 
+const primaryColor = '#185A9D';
 const secondaryColor = '#43CEA2';
 const dangerColor = '#F15E14';
-const warningColor = '#F1BE14';
 
 const List = styled.ul`
   list-style-type: none;
@@ -30,7 +30,7 @@ const VotesBadge = styled.div`
 `;
 
 const AddBadge = VotesBadge.extend`
-  background: ${warningColor}
+  background: #FFF;
 `;
 
 const TeamName = styled.span`
@@ -50,12 +50,25 @@ const RemoveTeamButton = styled.button`
   border: none;
 `;
 
+const CreateTeamButton = RemoveTeamButton.extend`
+  background: ${primaryColor};
+  margin-left: 10px;
+`;
+
 const sortByVotes = (teamA, teamB) => teamB.votes.length - teamA.votes.length;
 
-const TeamList = ({ canAddTeams, canRemoveTeams, onSelectTeam, teamsInMatch, teamsNotInMatch }) =>
+const TeamList = ({
+  canAddTeams,
+  canRemoveTeams,
+  onCreateNameChange,
+  onCreateTeam,
+  onSelectTeam,
+  teamsInMatch,
+  teamsNotInMatch
+}) =>
   <List>
     {teamsInMatch.sort(sortByVotes).map(team =>
-      <Item key={team.id}>
+      <Item key={team.teamId}>
         <VotesBadge>{team.votes.length}</VotesBadge>
         <TeamName>{team.name}</TeamName>
         {canRemoveTeams ? <RemoveTeamButton>X</RemoveTeamButton> : null}
@@ -65,15 +78,22 @@ const TeamList = ({ canAddTeams, canRemoveTeams, onSelectTeam, teamsInMatch, tea
       <Item>
         <AddBadge>+</AddBadge>
         <AddTeam
+          onCreateNameChange={onCreateNameChange}
           onSelectTeam={onSelectTeam}
           teams={teamsNotInMatch}>
         </AddTeam>
+        <CreateTeamButton onClick={onCreateTeam}>▶</CreateTeamButton>
       </Item>
     : null}
   </List>
 ;
 
 TeamList.propTypes = {
+  canAddTeams: PropTypes.bool,
+  canRemoveTeams: PropTypes.bool,
+  onSelectTeam: PropTypes.func,
+  teamsInMatch: PropTypes.array,
+  teamsNotInMatch: PropTypes.array
 };
 
 export default TeamList;

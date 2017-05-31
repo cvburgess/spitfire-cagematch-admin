@@ -51,6 +51,9 @@ const CreateMatch = ({ date, onDateChange, onCreateMatch }) =>
 ;
 
 CreateMatch.propTypes = {
+  date: PropTypes.string,
+  onDateChange: PropTypes.func,
+  onCreateMatch: PropTypes.func
 };
 
 export default CreateMatch;

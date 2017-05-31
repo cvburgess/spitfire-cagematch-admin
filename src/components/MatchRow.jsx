@@ -19,12 +19,24 @@ const Datelabel = styled.span``;
 const isTeamIdInMatch = (teamsInMatch, team) => teamsInMatch.find(({ teamId }) => teamId === team);
 const teamsNotInMatch = (allTeams, teamsInMatch) => allTeams.filter(({ teamId }) => !isTeamIdInMatch(teamsInMatch, teamId));
 
-const MatchRow = ({ allTeams, date, id, isVotingOpen, onSelectTeam, onToggleVoting, teamsInMatch }) =>
+const MatchRow = ({
+  allTeams,
+  date,
+  matchId,
+  isVotingOpen,
+  onCreateNameChange,
+  onCreateTeamForMatch,
+  onSelectTeam,
+  onToggleVoting,
+  teamsInMatch
+}) =>
   <Container>
     <Datelabel>{format(date, 'MMM Do')}</Datelabel>
     <TeamList
       canAddTeams={!isVotingOpen && isBefore(new Date(), date)}
       canRemoveTeams={!isVotingOpen && isBefore(new Date(), date)}
+      onCreateNameChange={onCreateNameChange}
+      onCreateTeam={() => onCreateTeamForMatch(matchId)}
       onSelectTeam={onSelectTeam}
       teamsInMatch={teamsInMatch}
       teamsNotInMatch={teamsNotInMatch(allTeams, teamsInMatch)} />
@@ -37,7 +49,7 @@ const MatchRow = ({ allTeams, date, id, isVotingOpen, onSelectTeam, onToggleVoti
 ;
 
 MatchRow.propTypes = {
-  id: PropTypes.string.isRequired,
+  matchId: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   isVotingOpen: PropTypes.bool.isRequired,
   teams: PropTypes.array,
