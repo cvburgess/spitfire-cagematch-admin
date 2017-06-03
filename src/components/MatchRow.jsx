@@ -39,7 +39,7 @@ const MatchRow = ({
       canRemoveTeams={!isVotingOpen && isBefore(new Date(), date)}
       createTeamName={createTeamName}
       onCreateNameChange={onCreateNameChange}
-      onCreateTeam={() => onCreateTeamForMatch(matchId)}
+      onCreateTeam={onCreateTeamForMatch}
       onRemoveTeamFromMatch={onRemoveTeamFromMatch}
       onSelectTeam={onSelectTeam}
       teamsInMatch={teamsInMatch}

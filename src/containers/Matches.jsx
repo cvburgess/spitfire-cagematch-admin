@@ -6,6 +6,7 @@ import {
   ADD_TEAM_TO_MATCH,
   CLOSE_VOTING_MUTATION,
   CREATE_MATCH_MUTATION,
+  CREATE_TEAM_MUTATION,
   MATCHES_AND_TEAMS_QUERY,
   OPEN_VOTING_MUTATION,
   REMOVE_TEAM_FROM_MATCH
@@ -41,9 +42,15 @@ class Matches extends React.Component {
     this.setState({ creatingDate: "" });
   };
 
-  onCreateTeamForMatch = (matchId) => {
-    this.onAddTeamToMatch({}, { matchId });
-    this.setState({ createTeamName: "" });
+  onCreateTeamForMatch = (match) => {
+    const { createTeamName } = this.state;
+    const { createTeam } = this.props;
+    createTeam(createTeamName)
+    .then(res => {
+      const team = res.data.createTeam;
+      this.onAddTeamToMatch(team, match);
+      this.setState({ createTeamName: "" });
+    });
   }
 
   onDateChange = (event) => {
@@ -79,7 +86,7 @@ class Matches extends React.Component {
           isVotingOpen={match.isVotingOpen}
           matchId={match.matchId}
           onCreateNameChange={this.onCreateNameChange}
-          onCreateTeamForMatch={this.onCreateTeamForMatch}
+          onCreateTeamForMatch={() => this.onCreateTeamForMatch(match)}
           onRemoveTeamFromMatch={(team) => this.onRemoveTeamFromMatch(team, match)}
           onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
           onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
@@ -92,9 +99,6 @@ class Matches extends React.Component {
 Matches.propTypes = {
   matches: PropTypes.array
 };
-
-// const sortByVotes = (teamA, teamB) => teamB.votes.length - teamA.votes.length;
-// .sort(sortByVotes)
 
 export default compose(
   graphql(MATCHES_AND_TEAMS_QUERY),
@@ -116,6 +120,18 @@ export default compose(
           const data = proxy.readQuery({ query: MATCHES_AND_TEAMS_QUERY });
           data.matches.push(createMatch);
           data.matches.sort((matchA, matchB) => isBefore(matchA.date, matchB.date));
+          proxy.writeQuery({ query: MATCHES_AND_TEAMS_QUERY, data });
+        }
+      }),
+    }),
+  }),
+  graphql(CREATE_TEAM_MUTATION, {
+    props: ({ mutate }) => ({
+      createTeam: (name) => mutate({
+        variables: { name },
+        update: (proxy, { data: { createTeam } }) => {
+          const data = proxy.readQuery({ query: MATCHES_AND_TEAMS_QUERY });
+          data.teams.push(createTeam);
           proxy.writeQuery({ query: MATCHES_AND_TEAMS_QUERY, data });
         }
       }),

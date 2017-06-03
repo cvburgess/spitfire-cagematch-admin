@@ -81,6 +81,18 @@ export const CREATE_MATCH_MUTATION = gql`
     }
   }`;
 
+export const CREATE_TEAM_MUTATION = gql`
+  mutation createTeam($name: String!) {
+    createTeam(name: $name){
+      teamId
+      name
+      logoData
+      votes {
+        voteId
+      }
+    }
+  }`;
+
 export const ADD_TEAM_TO_MATCH = gql`
   mutation addTeamToMatch($matchId: ID!, $teamId: ID!) {
     addTeamToMatch(matchId: $matchId, teamId: $teamId) {
