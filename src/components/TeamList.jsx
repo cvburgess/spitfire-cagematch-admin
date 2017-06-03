@@ -9,6 +9,10 @@ const dangerColor = '#F15E14';
 
 const List = styled.ul`
   list-style-type: none;
+  @media (min-width: 400px) {
+    margin-left: 40px;
+  }
+  padding: 0;
 `;
 
 const Item = styled.li`

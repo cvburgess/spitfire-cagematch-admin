@@ -10,21 +10,21 @@ const Button = styled.button`
   background: #FFF;
   height: 40px;
   border: 2px solid ${props => props.isVotingOpen ? dangerColor : primaryColor};
-  margin-left: auto;
   padding: 5px 10px;
   font: inherit;
   width: 150px;
+  margin: 5px 0;
 `;
 
-const ToggleVotingButton = ({ isVotingOpen, onToggle }) =>
-  <Button isVotingOpen={isVotingOpen} onClick={onToggle}>
+const ToggleVotingButton = ({ isVotingOpen, onClick }) =>
+  <Button isVotingOpen={isVotingOpen} onClick={onClick}>
     { isVotingOpen ? 'Close Voting' : 'Open Voting' }
   </Button>
 ;
 
 ToggleVotingButton.propTypes = {
   isVotingOpen: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 export default ToggleVotingButton;

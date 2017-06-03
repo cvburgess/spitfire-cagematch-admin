@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { format, isBefore } from 'date-fns';
+import { format, isAfter, isToday } from 'date-fns';
 import ToggleVotingButton from './ToggleVotingButton';
+import ToggleResultsButton from './ToggleResultsButton';
 import TeamList from './TeamList';
 
 const primaryColor = '#185A9D';
@@ -12,6 +13,20 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
+  flex-wrap: wrap;
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 500px) {
+    margin-left: auto;
+  }
 `;
 
 const Datelabel = styled.span``;
@@ -24,19 +39,21 @@ const MatchRow = ({
   createTeamName,
   date,
   isVotingOpen,
+  isWinnerVisible,
   matchId,
   onCreateNameChange,
   onCreateTeamForMatch,
   onRemoveTeamFromMatch,
   onSelectTeam,
   onToggleVoting,
+  toggleResults,
   teamsInMatch
 }) =>
   <Container>
     <Datelabel>{format(date, 'MMM Do')}</Datelabel>
     <TeamList
-      canAddTeams={!isVotingOpen && isBefore(new Date(), date)}
-      canRemoveTeams={!isVotingOpen && isBefore(new Date(), date)}
+      canAddTeams={!isVotingOpen && !isAfter(new Date(), date)}
+      canRemoveTeams={!isVotingOpen && !isAfter(new Date(), date)}
       createTeamName={createTeamName}
       onCreateNameChange={onCreateNameChange}
       onCreateTeam={onCreateTeamForMatch}
@@ -44,11 +61,18 @@ const MatchRow = ({
       onSelectTeam={onSelectTeam}
       teamsInMatch={teamsInMatch}
       teamsNotInMatch={teamsNotInMatch(allTeams, teamsInMatch)} />
-    {isBefore(date, new Date()) ? null :
-      <ToggleVotingButton
-        isVotingOpen={isVotingOpen}
-        onToggle={onToggleVoting} />
-    }
+    <ButtonContainer>
+      {isToday(date) &&
+        <ToggleVotingButton
+          isVotingOpen={isVotingOpen}
+          onClick={onToggleVoting} />
+      }
+      {isToday(date) && !isVotingOpen &&
+        <ToggleResultsButton
+          isWinnerVisible={isWinnerVisible}
+          onClick={toggleResults} />
+      }
+    </ButtonContainer>
   </Container>
 ;
 

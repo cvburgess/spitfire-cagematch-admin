@@ -20,7 +20,8 @@ class Matches extends React.Component {
     super(props);
     this.state = {
       creatingDate: "",
-      createTeamName: ""
+      createTeamName: "",
+      winningTeam: null
     };
   }
 
@@ -61,6 +62,14 @@ class Matches extends React.Component {
     this.setState({ createTeamName: event.target.value });
   };
 
+  toggleResultsForMatch = (match) => {
+    const winningTeam = match.teams && match.teams[0];
+    console.log(winningTeam);
+    this.setState((state, props) => ({
+      winningTeam: state.winningTeam ? null : winningTeam
+    }));
+  };
+
   toggleVotingForMatch = (matchId, isVotingOpen) => {
     const { closeVoting, openVoting } = this.props;
     isVotingOpen ? closeVoting(matchId) : openVoting(matchId);
@@ -68,7 +77,7 @@ class Matches extends React.Component {
 
   render() {
     const { data: { matches, teams, loading, error } } = this.props;
-    const { creatingDate, createTeamName } = this.state;
+    const { creatingDate, createTeamName, winningTeam } = this.state;
 
     return <div>
       <CreateMatch
@@ -84,12 +93,14 @@ class Matches extends React.Component {
           createTeamName={createTeamName}
           date={match.date}
           isVotingOpen={match.isVotingOpen}
+          isWinnerVisible={Boolean(winningTeam)}
           matchId={match.matchId}
           onCreateNameChange={this.onCreateNameChange}
           onCreateTeamForMatch={() => this.onCreateTeamForMatch(match)}
           onRemoveTeamFromMatch={(team) => this.onRemoveTeamFromMatch(team, match)}
           onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
           onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
+          toggleResults={() => this.toggleResultsForMatch(match)}
           teamsInMatch={match.teams} />
       )}
     </div>

@@ -61,6 +61,12 @@ export const CLOSE_VOTING_MUTATION = gql`
     closeVoting(matchId: $matchId) {
       matchId
       isVotingOpen
+      teams {
+        teamId
+        votes {
+          voteId
+        }
+      }
     }
   }`;
 
