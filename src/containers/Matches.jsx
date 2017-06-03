@@ -13,6 +13,7 @@ import {
 } from '../graphql';
 import MatchRow from '../components/MatchRow';
 import CreateMatch from '../components/CreateMatch';
+import Results from '../components/Results';
 
 class Matches extends React.Component {
 
@@ -63,8 +64,7 @@ class Matches extends React.Component {
   };
 
   toggleResultsForMatch = (match) => {
-    const winningTeam = match.teams && match.teams[0];
-    console.log(winningTeam);
+    const winningTeam = match && match.teams && match.teams[0];
     this.setState((state, props) => ({
       winningTeam: state.winningTeam ? null : winningTeam
     }));
@@ -79,31 +79,39 @@ class Matches extends React.Component {
     const { data: { matches, teams, loading, error } } = this.props;
     const { creatingDate, createTeamName, winningTeam } = this.state;
 
-    return <div>
-      <CreateMatch
-        date={creatingDate}
-        onDateChange={this.onDateChange}
-        onCreateMatch={this.onCreateMatch} />
-      {loading && <h1>Loading...</h1>}
-      {error && <h1>ERROR</h1>}
-      {matches && matches.map(match =>
-        <MatchRow
-          key={match.matchId}
-          allTeams={teams}
-          createTeamName={createTeamName}
-          date={match.date}
-          isVotingOpen={match.isVotingOpen}
-          isWinnerVisible={Boolean(winningTeam)}
-          matchId={match.matchId}
-          onCreateNameChange={this.onCreateNameChange}
-          onCreateTeamForMatch={() => this.onCreateTeamForMatch(match)}
-          onRemoveTeamFromMatch={(team) => this.onRemoveTeamFromMatch(team, match)}
-          onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
-          onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
-          toggleResults={() => this.toggleResultsForMatch(match)}
-          teamsInMatch={match.teams} />
-      )}
-    </div>
+    return (
+      <div>
+        {loading && <h1>Loading...</h1>}
+        {error && <h1>ERROR</h1>}
+        {winningTeam &&
+          <Results
+            toggleResults={this.toggleResultsForMatch}
+            winningTeam={winningTeam} />}
+        {!winningTeam &&
+          <CreateMatch
+            date={creatingDate}
+            onDateChange={this.onDateChange}
+            onCreateMatch={this.onCreateMatch} />
+        }
+        {!winningTeam && matches && matches.map(match =>
+          <MatchRow
+            key={match.matchId}
+            allTeams={teams}
+            createTeamName={createTeamName}
+            date={match.date}
+            isVotingOpen={match.isVotingOpen}
+            isWinnerVisible={Boolean(winningTeam)}
+            matchId={match.matchId}
+            onCreateNameChange={this.onCreateNameChange}
+            onCreateTeamForMatch={() => this.onCreateTeamForMatch(match)}
+            onRemoveTeamFromMatch={(team) => this.onRemoveTeamFromMatch(team, match)}
+            onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
+            onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
+            toggleResults={() => this.toggleResultsForMatch(match)}
+            teamsInMatch={match.teams} />
+        )}
+      </div>
+    )
   }
 }
 

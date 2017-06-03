@@ -3,6 +3,7 @@ import { ApolloProvider } from 'react-apollo';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import css from './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 const apiUrl = process.env.NODE_ENV === "development"
