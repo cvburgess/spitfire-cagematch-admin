@@ -39,14 +39,15 @@ const StyledTypeahead = styled(Typeahead)`
   }
 `;
 
-const AddTeam = ({ onCreateNameChange, onSelectTeam, teams }) =>
+const AddTeam = ({ createTeamName, onCreateNameChange, onSelectTeam, teams }) =>
   <StyledTypeahead
     filterOption="name"
     displayOption="name"
     placeholder="Add team"
     onKeyUp={onCreateNameChange}
     onOptionSelected={onSelectTeam}
-    options={teams} />
+    options={teams}
+    value={createTeamName} />
 
 AddTeam.propTypes = {
   teams: PropTypes.array

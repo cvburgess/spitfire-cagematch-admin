@@ -58,7 +58,9 @@ const CreateTeamButton = RemoveTeamButton.extend`
 const TeamList = ({
   canAddTeams,
   canRemoveTeams,
+  createTeamName,
   onCreateNameChange,
+  onRemoveTeamFromMatch,
   onCreateTeam,
   onSelectTeam,
   teamsInMatch,
@@ -69,13 +71,14 @@ const TeamList = ({
       <Item key={team.teamId}>
         <VotesBadge>{team.votes.length}</VotesBadge>
         <TeamName>{team.name}</TeamName>
-        {canRemoveTeams ? <RemoveTeamButton>X</RemoveTeamButton> : null}
+        {canRemoveTeams ? <RemoveTeamButton onClick={() => onRemoveTeamFromMatch(team)}>X</RemoveTeamButton> : null}
       </Item>
     )}
     {canAddTeams ?
       <Item>
         <AddBadge>+</AddBadge>
         <AddTeam
+          createTeamName={createTeamName}
           onCreateNameChange={onCreateNameChange}
           onSelectTeam={onSelectTeam}
           teams={teamsNotInMatch}>

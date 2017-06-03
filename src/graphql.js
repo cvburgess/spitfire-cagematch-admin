@@ -80,3 +80,25 @@ export const CREATE_MATCH_MUTATION = gql`
       }
     }
   }`;
+
+export const ADD_TEAM_TO_MATCH = gql`
+  mutation addTeamToMatch($matchId: ID!, $teamId: ID!) {
+    addTeamToMatch(matchId: $matchId, teamId: $teamId) {
+      matchId
+      teams {
+        teamId
+      }
+    }
+  }
+`;
+
+export const REMOVE_TEAM_FROM_MATCH = gql`
+  mutation removeTeamFromMatch($matchId: ID!, $teamId: ID!) {
+    removeTeamFromMatch(matchId: $matchId, teamId: $teamId) {
+      matchId
+      teams {
+        teamId
+      }
+    }
+  }
+`;

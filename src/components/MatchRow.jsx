@@ -21,11 +21,13 @@ const teamsNotInMatch = (allTeams, teamsInMatch) => allTeams.filter(({ teamId })
 
 const MatchRow = ({
   allTeams,
+  createTeamName,
   date,
-  matchId,
   isVotingOpen,
+  matchId,
   onCreateNameChange,
   onCreateTeamForMatch,
+  onRemoveTeamFromMatch,
   onSelectTeam,
   onToggleVoting,
   teamsInMatch
@@ -35,8 +37,10 @@ const MatchRow = ({
     <TeamList
       canAddTeams={!isVotingOpen && isBefore(new Date(), date)}
       canRemoveTeams={!isVotingOpen && isBefore(new Date(), date)}
+      createTeamName={createTeamName}
       onCreateNameChange={onCreateNameChange}
       onCreateTeam={() => onCreateTeamForMatch(matchId)}
+      onRemoveTeamFromMatch={onRemoveTeamFromMatch}
       onSelectTeam={onSelectTeam}
       teamsInMatch={teamsInMatch}
       teamsNotInMatch={teamsNotInMatch(allTeams, teamsInMatch)} />

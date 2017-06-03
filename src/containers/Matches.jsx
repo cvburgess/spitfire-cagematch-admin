@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { isBefore } from 'date-fns';
 import { graphql, compose } from 'react-apollo';
 import {
+  ADD_TEAM_TO_MATCH,
   CLOSE_VOTING_MUTATION,
   CREATE_MATCH_MUTATION,
   MATCHES_AND_TEAMS_QUERY,
-  OPEN_VOTING_MUTATION
+  OPEN_VOTING_MUTATION,
+  REMOVE_TEAM_FROM_MATCH
 } from '../graphql';
 import MatchRow from '../components/MatchRow';
 import CreateMatch from '../components/CreateMatch';
@@ -22,35 +24,34 @@ class Matches extends React.Component {
   }
 
   onAddTeamToMatch = (team, match) => {
+    const { addTeamToMatch } = this.props;
+    addTeamToMatch(team.teamId, match.matchId);
+    this.setState({ createTeamName: "" });
+  };
 
+  onRemoveTeamFromMatch = (team, match) => {
+    const { removeTeamFromMatch } = this.props;
+    removeTeamFromMatch(team.teamId, match.matchId);
   };
 
   onCreateMatch = () => {
     const { createMatch } = this.props;
     const { creatingDate } = this.state;
     createMatch(creatingDate);
-    this.setState({
-      creatingDate: ""
-    });
+    this.setState({ creatingDate: "" });
   };
 
   onCreateTeamForMatch = (matchId) => {
     this.onAddTeamToMatch({}, { matchId });
-    this.setState({
-      createTeamName: ""
-    });
+    this.setState({ createTeamName: "" });
   }
 
   onDateChange = (event) => {
-    this.setState({
-      creatingDate: event.target.value
-    });
+    this.setState({ creatingDate: event.target.value });
   };
 
   onCreateNameChange = (event) => {
-    this.setState({
-      createTeamName: event.target.value
-    });
+    this.setState({ createTeamName: event.target.value });
   };
 
   toggleVotingForMatch = (matchId, isVotingOpen) => {
@@ -60,7 +61,7 @@ class Matches extends React.Component {
 
   render() {
     const { data: { matches, teams, loading, error } } = this.props;
-    const { creatingDate } = this.state;
+    const { creatingDate, createTeamName } = this.state;
 
     return <div>
       <CreateMatch
@@ -73,11 +74,13 @@ class Matches extends React.Component {
         <MatchRow
           key={match.matchId}
           allTeams={teams}
-          matchId={match.matchId}
+          createTeamName={createTeamName}
           date={match.date}
           isVotingOpen={match.isVotingOpen}
+          matchId={match.matchId}
           onCreateNameChange={this.onCreateNameChange}
           onCreateTeamForMatch={this.onCreateTeamForMatch}
+          onRemoveTeamFromMatch={(team) => this.onRemoveTeamFromMatch(team, match)}
           onSelectTeam={(team) => this.onAddTeamToMatch(team, match)}
           onToggleVoting={() => this.toggleVotingForMatch(match.matchId, match.isVotingOpen)}
           teamsInMatch={match.teams} />
@@ -116,6 +119,16 @@ export default compose(
           proxy.writeQuery({ query: MATCHES_AND_TEAMS_QUERY, data });
         }
       }),
+    }),
+  }),
+  graphql(ADD_TEAM_TO_MATCH, {
+    props: ({ mutate }) => ({
+      addTeamToMatch: (teamId, matchId) => mutate({ variables: { matchId, teamId } }),
+    }),
+  }),
+  graphql(REMOVE_TEAM_FROM_MATCH, {
+    props: ({ mutate }) => ({
+      removeTeamFromMatch: (teamId, matchId) => mutate({ variables: { matchId, teamId } }),
     }),
   })
 )(Matches);
