@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { format, isAfter, isToday } from 'date-fns';
+import { format, endOfToday, isAfter, isToday } from 'date-fns';
 import ToggleVotingButton from './ToggleVotingButton';
 import ToggleResultsButton from './ToggleResultsButton';
 import TeamList from './TeamList';
@@ -52,8 +52,8 @@ const MatchRow = ({
   <Container>
     <Datelabel>{format(date, 'MMM Do')}</Datelabel>
     <TeamList
-      canAddTeams={!isVotingOpen && !isAfter(new Date(), date)}
-      canRemoveTeams={!isVotingOpen && !isAfter(new Date(), date)}
+      canAddTeams={!isVotingOpen && !isAfter(endOfToday, date)}
+      canRemoveTeams={!isVotingOpen && !isAfter(endOfToday, date)}
       createTeamName={createTeamName}
       onCreateNameChange={onCreateNameChange}
       onCreateTeam={onCreateTeamForMatch}

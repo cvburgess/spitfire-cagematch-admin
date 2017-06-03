@@ -128,7 +128,19 @@ export default compose(
   }),
   graphql(CLOSE_VOTING_MUTATION, {
     props: ({ mutate }) => ({
-      closeVoting: (matchId) => mutate({ variables: { matchId } }),
+      closeVoting: (matchId) => mutate({
+        variables: { matchId },
+        update: (proxy, { data: { closeVoting } }) => {
+          const data = proxy.readQuery({ query: MATCHES_AND_TEAMS_QUERY });
+          const sortByVotes = (teamA, teamB) => teamB.votes.length - teamA.votes.length;
+          const matches = data.matches.map(match => {
+            const teams = match.teams.sort(sortByVotes);
+            return Object.assign(match, { teams });
+          });
+          const sortedData = Object.assign(data, { matches });
+          proxy.writeQuery({ query: MATCHES_AND_TEAMS_QUERY, data: sortedData });
+        }
+      }),
     }),
   }),
   graphql(CREATE_MATCH_MUTATION, {

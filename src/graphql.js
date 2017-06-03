@@ -7,12 +7,12 @@ export const MATCHES_AND_TEAMS_QUERY = gql`
       isVotingOpen
       date
       teams {
-        votes {
-          voteId
-        }
         teamId
         name
         logoData
+        votes {
+          voteId
+        }
       }
     }
     teams {
@@ -29,12 +29,12 @@ export const ALL_MATCHES_QUERY = gql`
       isVotingOpen
       date
       teams {
-        votes {
-          voteId
-        }
         teamId
         name
         logoData
+        votes {
+          voteId
+        }
       }
     }
   }`;
@@ -53,6 +53,14 @@ export const OPEN_VOTING_MUTATION = gql`
     openVoting(matchId: $matchId) {
       matchId
       isVotingOpen
+      teams {
+        teamId
+        name
+        logoData
+        votes {
+          voteId
+        }
+      }
     }
   }`;
 
@@ -63,6 +71,8 @@ export const CLOSE_VOTING_MUTATION = gql`
       isVotingOpen
       teams {
         teamId
+        name
+        logoData
         votes {
           voteId
         }
@@ -77,19 +87,19 @@ export const CREATE_MATCH_MUTATION = gql`
       isVotingOpen
       date
       teams {
-        votes {
-          voteId
-        }
         teamId
         name
         logoData
+        votes {
+          voteId
+        }
       }
     }
   }`;
 
 export const CREATE_TEAM_MUTATION = gql`
   mutation createTeam($name: String!) {
-    createTeam(name: $name){
+    createTeam(name: $name) {
       teamId
       name
       logoData
@@ -105,6 +115,11 @@ export const ADD_TEAM_TO_MATCH = gql`
       matchId
       teams {
         teamId
+        name
+        logoData
+        votes {
+          voteId
+        }
       }
     }
   }
@@ -116,6 +131,11 @@ export const REMOVE_TEAM_FROM_MATCH = gql`
       matchId
       teams {
         teamId
+        name
+        logoData
+        votes {
+          voteId
+        }
       }
     }
   }
