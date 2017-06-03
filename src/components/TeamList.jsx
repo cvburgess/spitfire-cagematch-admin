@@ -71,7 +71,7 @@ const TeamList = ({
       <Item key={team.teamId}>
         <VotesBadge>{team.votes.length}</VotesBadge>
         <TeamName>{team.name}</TeamName>
-        {canRemoveTeams ? <RemoveTeamButton onClick={() => onRemoveTeamFromMatch(team)}>X</RemoveTeamButton> : null}
+        {canRemoveTeams && <RemoveTeamButton onClick={() => onRemoveTeamFromMatch(team)}>X</RemoveTeamButton>}
       </Item>
     )}
     {canAddTeams ?
