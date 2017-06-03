@@ -52,8 +52,8 @@ const MatchRow = ({
   <Container>
     <Datelabel>{format(date, 'MMM Do')}</Datelabel>
     <TeamList
-      canAddTeams={!isVotingOpen && !isAfter(endOfToday, date)}
-      canRemoveTeams={!isVotingOpen && !isAfter(endOfToday, date)}
+      canAddTeams={!isVotingOpen && !isAfter(endOfToday(), date)}
+      canRemoveTeams={!isVotingOpen && !isAfter(endOfToday(), date)}
       createTeamName={createTeamName}
       onCreateNameChange={onCreateNameChange}
       onCreateTeam={onCreateTeamForMatch}
