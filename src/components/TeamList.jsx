@@ -55,6 +55,7 @@ const RemoveTeamButton = styled.button`
 `;
 
 const CreateTeamButton = RemoveTeamButton.extend`
+  opacity: ${props => props.isVisible ? 100 : 0};
   background: ${primaryColor};
   margin-left: 10px;
 `;
@@ -87,7 +88,10 @@ const TeamList = ({
           onSelectTeam={onSelectTeam}
           teams={teamsNotInMatch}>
         </AddTeam>
-        <CreateTeamButton onClick={onCreateTeam}>▶</CreateTeamButton>
+        <CreateTeamButton
+          onClick={onCreateTeam}
+          isVisible={Boolean(createTeamName)}>▶
+        </CreateTeamButton>
       </Item>
     : null}
   </List>
