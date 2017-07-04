@@ -3,7 +3,7 @@ import { ApolloProvider } from 'react-apollo';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import css from './index.css';
+import css from './index.css'; // eslint-disable-line no-unused-vars
 import registerServiceWorker from './registerServiceWorker';
 
 const apiUrl = process.env.NODE_ENV === "development"
